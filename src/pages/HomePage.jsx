@@ -59,6 +59,8 @@ function HomePage() {
     updateApplication,
     removeApplication,
     changeStatus,
+    loadSampleData,
+    clearAll,
   } = useApplications();
 
   // The application being edited, or null when the modal is closed. `true`
@@ -68,6 +70,7 @@ function HomePage() {
   const editingApplication = editing === true ? undefined : editing;
 
   const [pendingDelete, setPendingDelete] = useState(null);
+  const [confirmClear, setConfirmClear] = useState(false);
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState(ALL_STATUSES);
@@ -92,6 +95,11 @@ function HomePage() {
     setPendingDelete(null);
   }
 
+  function handleConfirmClear() {
+    clearAll();
+    setConfirmClear(false);
+  }
+
   return (
     <div className="flex h-full flex-col">
       <TopBar
@@ -107,13 +115,32 @@ function HomePage() {
             statusFilter={statusFilter}
             onStatusFilterChange={setStatusFilter}
           />
-          <button
-            type="button"
-            onClick={() => setEditing(true)}
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-          >
-            Add Application
-          </button>
+          <div className="flex items-center gap-2">
+            {total === 0 ? (
+              <button
+                type="button"
+                onClick={loadSampleData}
+                className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
+              >
+                Load sample data
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setConfirmClear(true)}
+                className="rounded-md px-3 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+              >
+                Clear all
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => setEditing(true)}
+              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+            >
+              Add Application
+            </button>
+          </div>
         </div>
 
         {noMatches ? (
@@ -155,6 +182,15 @@ function HomePage() {
         }
         onConfirm={handleConfirmDelete}
         onCancel={() => setPendingDelete(null)}
+      />
+
+      <ConfirmDialog
+        isOpen={confirmClear}
+        title="Clear all applications"
+        message={`Delete all ${total} application${total === 1 ? "" : "s"}? This cannot be undone.`}
+        confirmLabel="Clear all"
+        onConfirm={handleConfirmClear}
+        onCancel={() => setConfirmClear(false)}
       />
     </div>
   );

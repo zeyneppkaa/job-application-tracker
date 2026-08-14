@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { createApplication } from "../interfaces/application.js";
 import { loadApplications, saveApplications } from "../utils/storage.js";
+import { getSampleApplications } from "../utils/sampleData.js";
 
 /**
  * Main data hook for the Job Application Tracker.
@@ -14,6 +15,7 @@ import { loadApplications, saveApplications } from "../utils/storage.js";
  *   updateApplication: (id: string, changes: Partial<import("../interfaces/application.js").Application>) => void,
  *   removeApplication: (id: string) => void,
  *   changeStatus: (id: string, status: string) => void,
+ *   loadSampleData: () => void,
  *   clearAll: () => void,
  * }}
  */
@@ -56,6 +58,10 @@ export function useApplications() {
     [updateApplication],
   );
 
+  const loadSampleData = useCallback(() => {
+    setApplications(getSampleApplications());
+  }, []);
+
   const clearAll = useCallback(() => {
     setApplications([]);
   }, []);
@@ -66,6 +72,7 @@ export function useApplications() {
     updateApplication,
     removeApplication,
     changeStatus,
+    loadSampleData,
     clearAll,
   };
 }
