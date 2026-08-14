@@ -28,8 +28,13 @@ function countByStatus(applications) {
  * @returns {JSX.Element}
  */
 function HomePage() {
-  const { applications, addApplication, updateApplication, removeApplication } =
-    useApplications();
+  const {
+    applications,
+    addApplication,
+    updateApplication,
+    removeApplication,
+    changeStatus,
+  } = useApplications();
 
   // The application being edited, or null when the modal is closed. `true`
   // marks add mode (open, no existing application).
@@ -78,6 +83,7 @@ function HomePage() {
           applications={applications}
           onEdit={setEditing}
           onDelete={setPendingDelete}
+          onChangeStatus={changeStatus}
         />
       </main>
 

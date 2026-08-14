@@ -29,7 +29,10 @@ function ApplicationCard({ application, onEdit, onDelete }) {
       </div>
       <p className="mt-0.5 break-words text-sm text-slate-600">{position}</p>
 
-      <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 transition focus-within:opacity-100 group-hover:opacity-100">
+      <div
+        onPointerDown={(event) => event.stopPropagation()}
+        className="absolute bottom-2 right-2 flex gap-1 opacity-0 transition focus-within:opacity-100 group-hover:opacity-100"
+      >
         <button
           type="button"
           onClick={() => onEdit(application)}

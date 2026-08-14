@@ -1,12 +1,14 @@
-import ApplicationCard from "./ApplicationCard.jsx";
+import { useDroppable } from "@dnd-kit/core";
+import DraggableCard from "./DraggableCard.jsx";
 import { statusColor } from "../utils/statusColors.js";
 
 /**
- * One kanban column for a single status. Renders its header (status name +
- * count) and a card per application, or an empty state when there are none.
+ * One kanban column for a single status. Acts as a droppable target keyed by
+ * its status and renders a draggable card per application, or an empty state
+ * when there are none.
  *
  * @param {Object} props
- * @param {string} props.status - The column's status.
+ * @param {string} props.status - The column's status; also the droppable id.
  * @param {import("../interfaces/application.js").Application[]} props.applications
  *   Applications already filtered to this status.
  * @param {(application: import("../interfaces/application.js").Application) => void} props.onEdit
@@ -15,9 +17,15 @@ import { statusColor } from "../utils/statusColors.js";
  */
 function Column({ status, applications, onEdit, onDelete }) {
   const color = statusColor(status);
+  const { setNodeRef, isOver } = useDroppable({ id: status });
 
   return (
-    <div className="flex w-72 shrink-0 flex-col rounded-lg bg-slate-100">
+    <div
+      ref={setNodeRef}
+      className={`flex w-72 shrink-0 flex-col rounded-lg transition ${
+        isOver ? "bg-slate-200 ring-2 ring-blue-400" : "bg-slate-100"
+      }`}
+    >
       <div className="flex items-center justify-between px-3 py-2">
         <div className="flex items-center gap-2">
           <span className={`h-2 w-2 rounded-full ${color.dot}`} />
@@ -35,7 +43,7 @@ function Column({ status, applications, onEdit, onDelete }) {
           </p>
         ) : (
           applications.map((application) => (
-            <ApplicationCard
+            <DraggableCard
               key={application.id}
               application={application}
               onEdit={onEdit}
