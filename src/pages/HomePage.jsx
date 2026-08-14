@@ -37,7 +37,7 @@ function HomePage() {
         offers={byStatus.Offer}
       />
       <main className="flex flex-1 flex-col p-6">
-        <Board />
+        <Board applications={applications} />
       </main>
     </div>
   );
