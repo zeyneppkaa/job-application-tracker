@@ -67,7 +67,6 @@ function HomePage() {
   const isOpen = editing !== null;
   const editingApplication = editing === true ? undefined : editing;
 
-  // The application awaiting delete confirmation, or null when none is pending.
   const [pendingDelete, setPendingDelete] = useState(null);
 
   const [search, setSearch] = useState("");
