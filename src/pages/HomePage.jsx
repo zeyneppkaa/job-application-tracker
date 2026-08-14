@@ -6,6 +6,7 @@ import Board from "../components/Board.jsx";
 import Modal from "../components/Modal.jsx";
 import ApplicationForm from "../components/ApplicationForm.jsx";
 import ConfirmDialog from "../components/ConfirmDialog.jsx";
+import BoardControls, { ALL_STATUSES } from "../components/BoardControls.jsx";
 
 /**
  * Count applications by status, seeded with every status so absent columns
@@ -20,6 +21,30 @@ function countByStatus(applications) {
     if (app.status in counts) counts[app.status] += 1;
   }
   return counts;
+}
+
+/**
+ * Filter applications by a case-insensitive company/position search and an
+ * optional exact status. Used for display only — it never mutates the data.
+ *
+ * @param {import("../interfaces/application.js").Application[]} applications
+ * @param {string} search
+ * @param {string} statusFilter - A status, or ALL_STATUSES.
+ * @returns {import("../interfaces/application.js").Application[]}
+ */
+function filterApplications(applications, search, statusFilter) {
+  const query = search.trim().toLowerCase();
+
+  return applications.filter((app) => {
+    if (statusFilter !== ALL_STATUSES && app.status !== statusFilter) {
+      return false;
+    }
+    if (!query) return true;
+    return (
+      app.company.toLowerCase().includes(query) ||
+      app.position.toLowerCase().includes(query)
+    );
+  });
 }
 
 /**
@@ -45,8 +70,14 @@ function HomePage() {
   // The application awaiting delete confirmation, or null when none is pending.
   const [pendingDelete, setPendingDelete] = useState(null);
 
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState(ALL_STATUSES);
+
   const byStatus = countByStatus(applications);
   const total = applications.length;
+
+  const filtered = filterApplications(applications, search, statusFilter);
+  const noMatches = total > 0 && filtered.length === 0;
 
   function handleSubmit(values) {
     if (editingApplication) {
@@ -70,7 +101,13 @@ function HomePage() {
         offers={byStatus.Offer}
       />
       <main className="flex flex-1 flex-col gap-4 p-6">
-        <div className="flex justify-end">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <BoardControls
+            search={search}
+            onSearchChange={setSearch}
+            statusFilter={statusFilter}
+            onStatusFilterChange={setStatusFilter}
+          />
           <button
             type="button"
             onClick={() => setEditing(true)}
@@ -79,12 +116,19 @@ function HomePage() {
             Add Application
           </button>
         </div>
-        <Board
-          applications={applications}
-          onEdit={setEditing}
-          onDelete={setPendingDelete}
-          onChangeStatus={changeStatus}
-        />
+
+        {noMatches ? (
+          <div className="flex flex-1 items-center justify-center text-sm text-slate-400">
+            No applications match your search
+          </div>
+        ) : (
+          <Board
+            applications={filtered}
+            onEdit={setEditing}
+            onDelete={setPendingDelete}
+            onChangeStatus={changeStatus}
+          />
+        )}
       </main>
 
       <Modal
