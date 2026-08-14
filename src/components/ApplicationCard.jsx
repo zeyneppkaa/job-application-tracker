@@ -17,15 +17,17 @@ function ApplicationCard({ application, onEdit, onDelete }) {
 
   return (
     <article className="group relative rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:border-slate-300 hover:shadow-md">
-      <div className="flex items-start justify-between gap-2">
-        <h3 className="font-semibold text-slate-800">{company}</h3>
+      <div className="flex min-w-0 items-start justify-between gap-2">
+        <h3 className="min-w-0 break-words font-semibold text-slate-800">
+          {company}
+        </h3>
         <span
           className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${color.badge}`}
         >
           {status}
         </span>
       </div>
-      <p className="mt-0.5 text-sm text-slate-600">{position}</p>
+      <p className="mt-0.5 break-words text-sm text-slate-600">{position}</p>
 
       <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 transition focus-within:opacity-100 group-hover:opacity-100">
         <button
