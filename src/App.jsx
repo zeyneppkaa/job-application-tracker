@@ -1,9 +1,9 @@
+import HomePage from "./pages/HomePage.jsx";
+
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100">
-      <h1 className="text-4xl font-bold text-blue-600 text-center">
-        Job Application Tracker
-      </h1>
+    <div className="h-screen bg-slate-100 text-slate-800">
+      <HomePage />
     </div>
   );
 }
