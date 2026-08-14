@@ -21,15 +21,21 @@ function groupByStatus(applications) {
  *
  * @param {Object} props
  * @param {import("../interfaces/application.js").Application[]} props.applications
+ * @param {(application: import("../interfaces/application.js").Application) => void} props.onEdit
  * @returns {JSX.Element}
  */
-function Board({ applications }) {
+function Board({ applications, onEdit }) {
   const groups = groupByStatus(applications);
 
   return (
     <div className="flex flex-1 gap-4 overflow-x-auto pb-2">
       {STATUSES.map((status) => (
-        <Column key={status} status={status} applications={groups[status]} />
+        <Column
+          key={status}
+          status={status}
+          applications={groups[status]}
+          onEdit={onEdit}
+        />
       ))}
     </div>
   );

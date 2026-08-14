@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { useApplications } from "../hooks/useApplications.js";
 import { STATUSES } from "../interfaces/status.js";
 import TopBar from "../components/TopBar.jsx";
 import Board from "../components/Board.jsx";
+import Modal from "../components/Modal.jsx";
+import ApplicationForm from "../components/ApplicationForm.jsx";
 
 /**
  * Count applications by status, seeded with every status so absent columns
@@ -24,10 +27,25 @@ function countByStatus(applications) {
  * @returns {JSX.Element}
  */
 function HomePage() {
-  const { applications } = useApplications();
+  const { applications, addApplication, updateApplication } = useApplications();
+
+  // The application being edited, or null when the modal is closed. `true`
+  // marks add mode (open, no existing application).
+  const [editing, setEditing] = useState(null);
+  const isOpen = editing !== null;
+  const editingApplication = editing === true ? undefined : editing;
 
   const byStatus = countByStatus(applications);
   const total = applications.length;
+
+  function handleSubmit(values) {
+    if (editingApplication) {
+      updateApplication(editingApplication.id, values);
+    } else {
+      addApplication(values);
+    }
+    setEditing(null);
+  }
 
   return (
     <div className="flex h-full flex-col">
@@ -36,9 +54,30 @@ function HomePage() {
         interviewing={byStatus.Interview}
         offers={byStatus.Offer}
       />
-      <main className="flex flex-1 flex-col p-6">
-        <Board applications={applications} />
+      <main className="flex flex-1 flex-col gap-4 p-6">
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={() => setEditing(true)}
+            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+          >
+            Add Application
+          </button>
+        </div>
+        <Board applications={applications} onEdit={setEditing} />
       </main>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setEditing(null)}
+        title={editingApplication ? "Edit Application" : "Add Application"}
+      >
+        <ApplicationForm
+          initialValues={editingApplication}
+          onSubmit={handleSubmit}
+          onCancel={() => setEditing(null)}
+        />
+      </Modal>
     </div>
   );
 }

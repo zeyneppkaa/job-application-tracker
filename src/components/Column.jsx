@@ -9,9 +9,10 @@ import { statusColor } from "../utils/statusColors.js";
  * @param {string} props.status - The column's status.
  * @param {import("../interfaces/application.js").Application[]} props.applications
  *   Applications already filtered to this status.
+ * @param {(application: import("../interfaces/application.js").Application) => void} props.onEdit
  * @returns {JSX.Element}
  */
-function Column({ status, applications }) {
+function Column({ status, applications, onEdit }) {
   const color = statusColor(status);
 
   return (
@@ -33,7 +34,11 @@ function Column({ status, applications }) {
           </p>
         ) : (
           applications.map((application) => (
-            <ApplicationCard key={application.id} application={application} />
+            <ApplicationCard
+              key={application.id}
+              application={application}
+              onEdit={onEdit}
+            />
           ))
         )}
       </div>
