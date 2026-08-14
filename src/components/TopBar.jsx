@@ -18,12 +18,12 @@ function TopBar({ total, interviewing, offers }) {
   ];
 
   return (
-    <header className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-4 shadow-sm">
-      <h1 className="text-xl font-bold text-slate-800">
+    <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6 sm:py-4">
+      <h1 className="text-lg font-bold text-slate-800 sm:text-xl">
         Job Application Tracker
       </h1>
 
-      <dl className="flex items-center gap-6">
+      <dl className="flex flex-wrap items-center gap-x-6 gap-y-1">
         {counters.map(({ label, value }) => (
           <div key={label} className="flex items-baseline gap-2">
             <dt className="text-sm text-slate-500">{label}</dt>

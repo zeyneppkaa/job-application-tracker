@@ -71,7 +71,7 @@ function Board({ applications, onEdit, onDelete, onChangeStatus }) {
       onDragEnd={handleDragEnd}
       onDragCancel={() => setActiveApplication(null)}
     >
-      <div className="flex flex-1 gap-4 overflow-x-auto pb-2">
+      <div className="flex flex-col gap-4 pb-2 md:flex-1 md:flex-row md:overflow-x-auto md:overflow-y-hidden">
         {STATUSES.map((status) => (
           <Column
             key={status}

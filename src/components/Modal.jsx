@@ -50,7 +50,7 @@ function Modal({ isOpen, onClose, title, children }) {
             type="button"
             onClick={onClose}
             aria-label="Close dialog"
-            className="rounded p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+            className="rounded p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <svg
               viewBox="0 0 20 20"

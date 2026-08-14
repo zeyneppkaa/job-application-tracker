@@ -22,7 +22,7 @@ function Column({ status, applications, onEdit, onDelete }) {
   return (
     <div
       ref={setNodeRef}
-      className={`flex w-72 shrink-0 flex-col rounded-lg transition ${
+      className={`flex h-fit w-full shrink-0 flex-col rounded-lg transition md:h-auto md:w-72 ${
         isOver ? "bg-slate-200 ring-2 ring-blue-400" : "bg-slate-100"
       }`}
     >
@@ -36,7 +36,7 @@ function Column({ status, applications, onEdit, onDelete }) {
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col gap-2 overflow-y-auto px-2 pb-2">
+      <div className="flex flex-col gap-2 px-2 pb-2 md:flex-1 md:overflow-y-auto">
         {applications.length === 0 ? (
           <p className="px-1 py-4 text-center text-xs text-slate-400">
             No applications

@@ -37,7 +37,7 @@ function ApplicationCard({ application, onEdit, onDelete }) {
           type="button"
           onClick={() => onEdit(application)}
           aria-label={`Edit ${company} application`}
-          className="rounded p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+          className="rounded p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <svg
             viewBox="0 0 20 20"
@@ -52,7 +52,7 @@ function ApplicationCard({ application, onEdit, onDelete }) {
           type="button"
           onClick={() => onDelete(application)}
           aria-label={`Delete ${company} application`}
-          className="rounded p-1 text-slate-400 transition hover:bg-red-50 hover:text-red-600"
+          className="rounded p-1 text-slate-400 transition hover:bg-red-50 hover:text-red-600 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
         >
           <svg
             viewBox="0 0 20 20"
