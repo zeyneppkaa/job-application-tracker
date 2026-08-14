@@ -10,9 +10,10 @@ import { statusColor } from "../utils/statusColors.js";
  * @param {import("../interfaces/application.js").Application[]} props.applications
  *   Applications already filtered to this status.
  * @param {(application: import("../interfaces/application.js").Application) => void} props.onEdit
+ * @param {(application: import("../interfaces/application.js").Application) => void} props.onDelete
  * @returns {JSX.Element}
  */
-function Column({ status, applications, onEdit }) {
+function Column({ status, applications, onEdit, onDelete }) {
   const color = statusColor(status);
 
   return (
@@ -38,6 +39,7 @@ function Column({ status, applications, onEdit }) {
               key={application.id}
               application={application}
               onEdit={onEdit}
+              onDelete={onDelete}
             />
           ))
         )}

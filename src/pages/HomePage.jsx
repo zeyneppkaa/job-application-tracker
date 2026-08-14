@@ -5,6 +5,7 @@ import TopBar from "../components/TopBar.jsx";
 import Board from "../components/Board.jsx";
 import Modal from "../components/Modal.jsx";
 import ApplicationForm from "../components/ApplicationForm.jsx";
+import ConfirmDialog from "../components/ConfirmDialog.jsx";
 
 /**
  * Count applications by status, seeded with every status so absent columns
@@ -27,13 +28,17 @@ function countByStatus(applications) {
  * @returns {JSX.Element}
  */
 function HomePage() {
-  const { applications, addApplication, updateApplication } = useApplications();
+  const { applications, addApplication, updateApplication, removeApplication } =
+    useApplications();
 
   // The application being edited, or null when the modal is closed. `true`
   // marks add mode (open, no existing application).
   const [editing, setEditing] = useState(null);
   const isOpen = editing !== null;
   const editingApplication = editing === true ? undefined : editing;
+
+  // The application awaiting delete confirmation, or null when none is pending.
+  const [pendingDelete, setPendingDelete] = useState(null);
 
   const byStatus = countByStatus(applications);
   const total = applications.length;
@@ -45,6 +50,11 @@ function HomePage() {
       addApplication(values);
     }
     setEditing(null);
+  }
+
+  function handleConfirmDelete() {
+    removeApplication(pendingDelete.id);
+    setPendingDelete(null);
   }
 
   return (
@@ -64,7 +74,11 @@ function HomePage() {
             Add Application
           </button>
         </div>
-        <Board applications={applications} onEdit={setEditing} />
+        <Board
+          applications={applications}
+          onEdit={setEditing}
+          onDelete={setPendingDelete}
+        />
       </main>
 
       <Modal
@@ -78,6 +92,21 @@ function HomePage() {
           onCancel={() => setEditing(null)}
         />
       </Modal>
+
+      <ConfirmDialog
+        isOpen={pendingDelete !== null}
+        title="Delete Application"
+        message={
+          pendingDelete && (
+            <>
+              Delete the application for &ldquo;{pendingDelete.position}&rdquo;
+              at &ldquo;{pendingDelete.company}&rdquo;? This cannot be undone.
+            </>
+          )
+        }
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

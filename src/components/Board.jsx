@@ -22,9 +22,10 @@ function groupByStatus(applications) {
  * @param {Object} props
  * @param {import("../interfaces/application.js").Application[]} props.applications
  * @param {(application: import("../interfaces/application.js").Application) => void} props.onEdit
+ * @param {(application: import("../interfaces/application.js").Application) => void} props.onDelete
  * @returns {JSX.Element}
  */
-function Board({ applications, onEdit }) {
+function Board({ applications, onEdit, onDelete }) {
   const groups = groupByStatus(applications);
 
   return (
@@ -35,6 +36,7 @@ function Board({ applications, onEdit }) {
           status={status}
           applications={groups[status]}
           onEdit={onEdit}
+          onDelete={onDelete}
         />
       ))}
     </div>
