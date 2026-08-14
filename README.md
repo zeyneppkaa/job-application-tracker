@@ -37,19 +37,19 @@ private way to stay organized, with no account or backend required.
 
 ![Drag and drop](./screenshots/drag-and-drop.png)
 
-*Moving a card between columns*
+_Moving a card between columns_
 
 ![Add application](./screenshots/add-form.png)
 
-*Adding / editing an application*
+_Adding / editing an application_
 
 ![Delete confirmation](./screenshots/delete-confirm.png)
 
-*Delete with confirmation*
+_Delete with confirmation_
 
-![Mobile view](./screenshots/mobile.png)
+<img src="./screenshots/mobile.png" alt="Mobile view" width="300" />
 
-*Responsive mobile layout*
+_Responsive mobile layout_
 
 ## Getting Started
 
@@ -62,7 +62,7 @@ private way to stay organized, with no account or backend required.
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/zeyneppkaa/job-application-tracker.git
 cd job-application-tracker
 ```
 
